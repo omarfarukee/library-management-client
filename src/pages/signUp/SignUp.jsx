@@ -17,7 +17,7 @@ const SignUp = () => {
             gender: data.gender,
             email: data.email,
             pass: data.pass,
-            role:"student",
+            role:"buyer",
             verification:"",
         }
         console.log(userData)

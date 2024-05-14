@@ -7,7 +7,7 @@ import { useUserData } from "../../Hooks/Hooks";
 import { useToasts } from "react-toast-notifications";
 const Navbar = () => {
     const userData = useUserData()
-    console.log(userData?.user)
+    // console.log(userData?.user)
     const { addToast } = useToasts();
     const handleLogout = () => {
         sessionStorage.removeItem('userData')
@@ -74,6 +74,27 @@ const Navbar = () => {
             } to="/home">
               <span className="absolute left-0 rotate-12 inline-block translate-y-[120%] p-1 transition duration-500 ease-out group-hover:-translate-y-0 group-hover:rotate-0">
               <p className="flex items-center gap-1">HOME<FaHome /></p>
+              </span>
+            </NavLink>
+          </div>
+          <div
+           className="relative h-10 overflow-hidden text-lg font-bold leading-6 text-black uppercase cursor-pointer group">
+            <NavLink className={({ isActive }) =>
+              isActive
+              ? 'text-blue-500'
+              : 'text-black'
+            } to="/allBooks/Category">
+              <span className="group-hover:-translate-y-[120%] inline-block p-1 transition duration-500 ease-out">
+                <p className="flex items-center gap-1">Books_Catelogue<FaHome /></p>
+              </span>
+            </NavLink>
+            <NavLink className={({ isActive }) =>
+              isActive
+              ? 'text-blue-500'
+              : 'text-black'
+            } to="/allBooks/Category">
+              <span className="absolute left-0 rotate-12 inline-block translate-y-[160%] p-1 transition duration-500 ease-out group-hover:-translate-y-0 group-hover:rotate-0">
+              <p className="flex items-center gap-1">Books_Catelogue<FaHome /></p>
               </span>
             </NavLink>
           </div>
