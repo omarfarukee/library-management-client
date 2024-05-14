@@ -1,19 +1,19 @@
-
-.signUp-background { /* Ensure the signup-container covers the entire viewport */
+.login-background { /* Ensure the container covers the entire viewport */
     top: 0;
     left: 0;
     height: 100vh; /* 100% of the viewport height */
     width: 60%; /* 100% of the viewport width */
-    background-image:linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75)), url(../../images//signUp-background/6714.jpg);
+    background-image:linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75)), url(../../images/signUp-background/2111.w039.n003.23B.p1.23.jpg);
     background-size: cover;
     background-position: center;
     /* border-right: 10px solid rgb(97, 97, 255); */
 }
-.signup-container {
+
+.login-container {
     width:40%;
 }
 
-.signup-container input{
+.login-container input{
     background-color: #eee;
     border: none;
     margin: 8px 0;
@@ -23,7 +23,7 @@
     width: 100%;
     outline: none;
 }
-.signup-container select{
+.login-container select{
     background-color: #eee;
     border: none;
     margin: 8px 0;
@@ -32,7 +32,7 @@
     border-radius: 8px;
     outline: none;
 }
-.signup-container button{
+.login-container button{
     background-color: rgb(97, 97, 255);
     color: #000;
     font-size: 12px;

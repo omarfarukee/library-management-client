@@ -3,12 +3,19 @@ import { useState, useEffect } from "react";
 import { NavLink} from "react-router-dom";
 import { FaHome } from "react-icons/fa";
 import logo from "../../images/logo/pngwing.com (8).png"
+import { useUserData } from "../../Hooks/Hooks";
+import { useToasts } from "react-toast-notifications";
 const Navbar = () => {
-
-
-  // console.log(userData)
+    const userData = useUserData()
+    console.log(userData?.user)
+    const { addToast } = useToasts();
+    const handleLogout = () => {
+        sessionStorage.removeItem('userData')
+        addToast('User log out', { appearance: 'success' })
+        window.location.reload();
+    
+      }
   const [scrolled, setScrolled] = useState(false);
-
   useEffect(() => {
     const handleScroll = () => {
       const offset = window.scrollY;
@@ -73,8 +80,9 @@ const Navbar = () => {
         </div>
         <div className="" >
           <div>
-           <NavLink to="/SignUp"><h1 className="text-lg font-bold">Sign up</h1></NavLink> 
-           
+            {userData?.user ? <h1 onClick={() => handleLogout()} className="text-lg font-bold cursor-pointer">Log-out</h1>
+           : <NavLink to="/SignUp"><h1 className="text-lg font-bold">Sign up</h1></NavLink>}
+         
           </div>
         </div>
 
