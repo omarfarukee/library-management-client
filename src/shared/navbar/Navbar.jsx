@@ -53,7 +53,7 @@ const Navbar = () => {
            className="relative h-10 overflow-hidden text-lg font-bold leading-6 text-black uppercase cursor-pointer group">
             <NavLink className={({ isActive }) =>
               isActive
-              ? 'text-lime-600'
+              ? 'text-blue-500'
               : 'text-black'
             } to="/home">
               <span className="group-hover:-translate-y-[120%] inline-block p-1 transition duration-500 ease-out">
@@ -62,7 +62,7 @@ const Navbar = () => {
             </NavLink>
             <NavLink className={({ isActive }) =>
               isActive
-              ? 'text-lime-600'
+              ? 'text-blue-500'
               : 'text-black'
             } to="/home">
               <span className="absolute left-0 rotate-12 inline-block translate-y-[120%] p-1 transition duration-500 ease-out group-hover:-translate-y-0 group-hover:rotate-0">
@@ -70,11 +70,11 @@ const Navbar = () => {
               </span>
             </NavLink>
           </div>
-         
         </div>
-        <div className="flex items-center gap-2" >
+        <div className="" >
           <div>
-            <h1 className="text-lg font-bold">login</h1>
+           <NavLink to="/SignUp"><h1 className="text-lg font-bold">Sign up</h1></NavLink> 
+           
           </div>
         </div>
 

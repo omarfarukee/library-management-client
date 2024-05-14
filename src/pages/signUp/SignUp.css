@@ -1,0 +1,47 @@
+
+.signUp-background { /* Ensure the container covers the entire viewport */
+    top: 0;
+    left: 0;
+    height: 100vh; /* 100% of the viewport height */
+    width: 60%; /* 100% of the viewport width */
+    background-image:linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75)), url(../../images//signUp-background/6714.jpg);
+    background-size: cover;
+    background-position: center;
+    border-right: 10px solid rgb(97, 97, 255);
+}
+.container {
+    width:40%;
+}
+
+.container input{
+    background-color: #eee;
+    border: none;
+    margin: 8px 0;
+    padding: 10px 15px;
+    font-size: 13px;
+    border-radius: 8px;
+    width: 100%;
+    outline: none;
+}
+.container select{
+    background-color: #eee;
+    border: none;
+    margin: 8px 0;
+    padding: 10px 15px;
+    font-size: 13px;
+    border-radius: 8px;
+    outline: none;
+}
+.container button{
+    background-color: rgb(97, 97, 255);
+    color: #000;
+    font-size: 12px;
+    padding: 10px 45px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    cursor: pointer;
+}
