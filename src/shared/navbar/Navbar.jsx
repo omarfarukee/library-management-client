@@ -1,20 +1,23 @@
 
 import { useState, useEffect } from "react";
-import { NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { FaHome } from "react-icons/fa";
 import logo from "../../images/logo/pngwing.com (8).png"
 import { useUserData } from "../../Hooks/Hooks";
 import { useToasts } from "react-toast-notifications";
+import { MdAdminPanelSettings } from "react-icons/md";
+import { FaUserTag } from "react-icons/fa";
+
 const Navbar = () => {
-    const userData = useUserData()
-    // console.log(userData?.user)
-    const { addToast } = useToasts();
-    const handleLogout = () => {
-        sessionStorage.removeItem('userData')
-        addToast('User log out', { appearance: 'success' })
-        window.location.reload();
-    
-      }
+  const userData = useUserData()
+  // console.log(userData?.user)
+  const { addToast } = useToasts();
+  const handleLogout = () => {
+    sessionStorage.removeItem('userData')
+    addToast('User log out', { appearance: 'success' })
+    window.location.reload();
+
+  }
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const handleScroll = () => {
@@ -57,11 +60,11 @@ const Navbar = () => {
         </div>
         <div className="flex gap-5 ">
           <div
-           className="relative h-10 overflow-hidden text-lg font-bold leading-6 text-black uppercase cursor-pointer group">
+            className="relative h-10 overflow-hidden text-lg font-bold leading-6 text-black uppercase cursor-pointer group">
             <NavLink className={({ isActive }) =>
               isActive
-              ? 'text-blue-500'
-              : 'text-black'
+                ? 'text-blue-500'
+                : 'text-black'
             } to="/home">
               <span className="group-hover:-translate-y-[120%] inline-block p-1 transition duration-500 ease-out">
                 <p className="flex items-center gap-1">HOME<FaHome /></p>
@@ -69,20 +72,20 @@ const Navbar = () => {
             </NavLink>
             <NavLink className={({ isActive }) =>
               isActive
-              ? 'text-blue-500'
-              : 'text-black'
+                ? 'text-blue-500'
+                : 'text-black'
             } to="/home">
               <span className="absolute left-0 rotate-12 inline-block translate-y-[120%] p-1 transition duration-500 ease-out group-hover:-translate-y-0 group-hover:rotate-0">
-              <p className="flex items-center gap-1">HOME<FaHome /></p>
+                <p className="flex items-center gap-1">HOME<FaHome /></p>
               </span>
             </NavLink>
           </div>
           <div
-           className="relative h-10 overflow-hidden text-lg font-bold leading-6 text-black uppercase cursor-pointer group">
+            className="relative h-10 overflow-hidden text-lg font-bold leading-6 text-black uppercase cursor-pointer group">
             <NavLink className={({ isActive }) =>
               isActive
-              ? 'text-blue-500'
-              : 'text-black'
+                ? 'text-blue-500'
+                : 'text-black'
             } to="/allBooks/Category">
               <span className="group-hover:-translate-y-[120%] inline-block p-1 transition duration-500 ease-out">
                 <p className="flex items-center gap-1">Books_Catelogue<FaHome /></p>
@@ -90,20 +93,26 @@ const Navbar = () => {
             </NavLink>
             <NavLink className={({ isActive }) =>
               isActive
-              ? 'text-blue-500'
-              : 'text-black'
+                ? 'text-blue-500'
+                : 'text-black'
             } to="/allBooks/Category">
               <span className="absolute left-0 rotate-12 inline-block translate-y-[160%] p-1 transition duration-500 ease-out group-hover:-translate-y-0 group-hover:rotate-0">
-              <p className="flex items-center gap-1">Books_Catelogue<FaHome /></p>
+                <p className="flex items-center gap-1">Books_Catelogue<FaHome /></p>
               </span>
             </NavLink>
           </div>
         </div>
         <div className="" >
-          <div>
+          <div className="flex items-center gap-1">
+            <div>
+              {userData?.user?.role === "admin" && <NavLink to='/myProfile'><MdAdminPanelSettings className="text-2xl" />
+              </NavLink>}
+              {userData?.user?.role === "buyer" && <NavLink to='/myProfile'><FaUserTag className="text-2xl" />
+              </NavLink>}
+            </div>
             {userData?.user ? <h1 onClick={() => handleLogout()} className="text-lg font-bold cursor-pointer">Log-out</h1>
-           : <NavLink to="/SignUp"><h1 className="text-lg font-bold">Sign up</h1></NavLink>}
-         
+              : <NavLink to="/SignUp"><h1 className="text-lg font-bold">Sign up</h1></NavLink>}
+
           </div>
         </div>
 

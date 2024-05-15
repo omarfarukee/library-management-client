@@ -57,6 +57,7 @@ const BooksPage = () => {
 					</g>
 				</svg>
 				<input
+				className=""
                     type="search"
                     name="q"
                     aria-label="Search for inspiration"

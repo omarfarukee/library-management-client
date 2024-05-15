@@ -6,6 +6,7 @@ import Login from '../pages/login/Login';
 import AllBook from '../pages/BooksCategory/BooksCategory';
 import BooksPage from '../pages/BooksPage/BooksPage';
 import BookDeatils from '../pages/BooksPage/BookDeatils';
+import UserProfile from '../pages/UserProfile/UserProfile';
 
 const routes = createBrowserRouter([
     {
@@ -19,6 +20,10 @@ const routes = createBrowserRouter([
             {
                 path: '/allBooks/Category',
                 element: <AllBook />,
+            },
+            {
+                path: '/myProfile',
+                element: <UserProfile />,
             },
             {
                 path: '/bookPage/:category',
