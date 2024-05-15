@@ -17,7 +17,7 @@ const AllBook = () => {
     // console.log(allCategory)
     return (
         <div className="flex justify-center pt-20 ">
-        <div className="grid w-3/4 grid-cols-3 ">
+        <div className="grid grid-cols-3 ">
             {
                 allCategory?.data?.map(
                     category => 

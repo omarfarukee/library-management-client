@@ -5,6 +5,7 @@ import SignUp from '../pages/signUp/SignUp';
 import Login from '../pages/login/Login';
 import AllBook from '../pages/BooksCategory/BooksCategory';
 import BooksPage from '../pages/BooksPage/BooksPage';
+import BookDeatils from '../pages/BooksPage/BookDeatils';
 
 const routes = createBrowserRouter([
     {
@@ -24,6 +25,13 @@ const routes = createBrowserRouter([
                 element: <BooksPage/>,
                 loader:async ({params}) =>{
                     return fetch(`http://localhost:5000/api/books/getByCatName/${params?.category}`)
+                }
+            },
+            {
+                path: '/book/:id',
+                element: <BookDeatils/>,
+                loader:async ({params}) =>{
+                    return fetch(`http://localhost:5000/api/books/${params?.id}`)
                 }
             },
            
