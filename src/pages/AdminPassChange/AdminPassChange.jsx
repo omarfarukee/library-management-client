@@ -59,7 +59,7 @@ const AdminPassChange = () => {
     };
 
     try {
-        const response = await fetch(`http://localhost:5000/api/update/Admin/${adminData?.user?._id}`, {
+        const response = await fetch(`http://localhost:5000/api/update/user/${adminData?.user?._id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -91,7 +91,7 @@ const AdminPassChange = () => {
 };
 
     return (
-        <div>
+        <div className=''>
             <div>
                 <div>
                     <div className="flex justify-center mb-10 border-b-8">

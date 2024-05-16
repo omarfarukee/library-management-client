@@ -3,7 +3,7 @@
 import { useQuery } from "react-query";
 import { useUserData } from "../../Hooks/Hooks";
 import { FaUserCircle } from "react-icons/fa";
-import {  Modal } from "flowbite-react";
+import { Modal } from "flowbite-react";
 import { useState } from "react";
 import AdminPassChange from "../AdminPassChange/AdminPassChange";
 const UserProfile = () => {
@@ -65,16 +65,16 @@ const UserProfile = () => {
                     </div>
 
                 </div>
-
-                <div>
-                    <Modal show={openModal} size="md" onClose={() => setOpenModal(false)} popup>
-                        <Modal.Header />
-                        <Modal.Body>
-                               <><AdminPassChange/></> 
-                        </Modal.Body>
-                    </Modal>
+                <div className="flex justify-center">
+                    <div className="flex justify-center">
+                        <Modal show={openModal} size="md" className="" onClose={() => setOpenModal(false)} popup>
+                            <Modal.Header />
+                            <Modal.Body>
+                                <><AdminPassChange /></>
+                            </Modal.Body>
+                        </Modal>
+                    </div>
                 </div>
-
             </div>
         </div>
 
