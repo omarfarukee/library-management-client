@@ -28,8 +28,7 @@ const BookDeatils = () => {
       return data;
     }
   });
-
-  console.log(signleData?.data?._id)
+  // console.log(signleData?.data?._id)
   const handleRatingClick = (value) => {
     setRating(value === rating ? 0 : value);
   };
@@ -96,7 +95,45 @@ const BookDeatils = () => {
 
   }
 
-  console.log(review?.data?.length)
+  const { data: lendBooks = [], } = useQuery({
+    queryKey: ['lendBooks'],
+    queryFn: async () => {
+      const res = await fetch(`http://localhost:5000/api/lend-books/Fetch`);
+      const data = await res.json();
+      return data;
+    }
+  });
+  const filterLendBook = lendBooks?.data?.filter(lend => lend?.email === userData?.user?.email && lend?.book_id === signleData?.data?._id)
+  console.log(filterLendBook&&filterLendBook)
+
+  const handleLendBooksSubmit = async () => {
+    const lendDate = new Date().toISOString().split('T')[0];
+    const lendData = {
+      lendDate,
+      userName: userData?.user?.userName,
+      email: userData?.user?.email,
+      book_title: signleData?.data?.title,
+      book_author: signleData?.data?.author,
+      book_genre: signleData?.data?.genre,
+      book_id: signleData?.data?._id,
+      request: ""
+    }
+    const response = await fetch('http://localhost:5000/api/lend-books', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(lendData)
+    });
+    const responseData = await response.json();
+    if (responseData?.result?.acknowledged === true) {
+      addToast('lend request send to admin...', { appearance: 'success' })
+      location.reload();
+    } else {
+      addToast('lend request send fail', { appearance: 'error' })
+    }
+  }
+
 
   return (
     <div>
@@ -110,9 +147,21 @@ const BookDeatils = () => {
             <p>Genre: {signleData?.data?.genre}</p>
             <p>Publication Year: {signleData?.data?.publicationYear}</p>
             <p className="mb-3 font-normal ">Description: '{signleData?.data?.description}'</p>
+           <div className="flex items-center gap-2">
+            {filterLendBook && filterLendBook[0]?.book_id === signleData?.data?._id ?
+            <button disabled className="w-40 p-2 bg-blue-400 rounded-lg">{`${filterLendBook&&filterLendBook[0]?.request === "" ? "pending request..." : "Lend accepted"}`}
+            </button>:
+            <button onClick={() => handleLendBooksSubmit()} className="p-2 bg-blue-400 rounded-lg w-36">Lend this books
+            </button>}
+            {filterLendBook&&filterLendBook[0]?.returnDate &&<h1>Return Date: {filterLendBook&&filterLendBook[0]?.returnDate}</h1>}
+            </div> 
+            
           </div>
         </div>
       </div>
+
+
+      {/* review section*/}
       <div className="flex justify-center mt-10 mb-10">
         <div className="w-1/2">
           <div className='mt-2 shadow-xl rounded-2xl'>
@@ -148,13 +197,13 @@ const BookDeatils = () => {
         </div>
       </div>
       <div className="flex justify-center">
-      {
-        review?.data?.length === 0 ?
+        {
+          review?.data?.length === 0 ?
 
-          <div className='flex justify-center mt-10 mb-10'>
-            <span className=" no-found-review">No reviews Found ☹</span>
-          </div>
-          :
+            <div className='flex justify-center mt-10 mb-10'>
+              <span className=" no-found-review">No reviews Found ☹</span>
+            </div>
+            :
 
             <div className='mt-10 rounded-2xl'>
               {
@@ -202,7 +251,7 @@ const BookDeatils = () => {
                   </div>)
               }
             </div>
-      }
+        }
       </div>
     </div>
 
