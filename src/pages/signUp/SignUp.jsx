@@ -19,6 +19,7 @@ const SignUp = () => {
             pass: data.pass,
             role:"buyer",
             verification:"",
+            block:"",
         }
         console.log(userData)
         try {
