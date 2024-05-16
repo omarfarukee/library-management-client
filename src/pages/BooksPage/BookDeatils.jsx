@@ -104,7 +104,7 @@ const BookDeatils = () => {
     }
   });
   const filterLendBook = lendBooks?.data?.filter(lend => lend?.email === userData?.user?.email && lend?.book_id === signleData?.data?._id)
-  console.log(filterLendBook&&filterLendBook)
+  // console.log(filterLendBook&&filterLendBook)
 
   const handleLendBooksSubmit = async () => {
     const lendDate = new Date().toISOString().split('T')[0];
@@ -133,8 +133,41 @@ const BookDeatils = () => {
       addToast('lend request send fail', { appearance: 'error' })
     }
   }
+  const handleAddCart = async () => {
+    const lendData = {
+      userName: userData?.user?.userName,
+      email: userData?.user?.email,
+      book_title: signleData?.data?.title,
+      book_author: signleData?.data?.author,
+      book_genre: signleData?.data?.genre,
+      book_id: signleData?.data?._id,
+    }
+    const response = await fetch('http://localhost:5000/api/cart', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(lendData)
+    });
+    const responseData = await response.json();
+    if (responseData?.result?.acknowledged === true) {
+      addToast('book added in your cart', { appearance: 'success' })
+      location.reload();
+    } else {
+      addToast('fail to add cart', { appearance: 'error' })
+    }
+  }
+  const { data: carts = [], } = useQuery({
+    queryKey: ['carts'],
+    queryFn: async () => {
+      const res = await fetch(`http://localhost:5000/api/cart/Fetch`);
+      const data = await res.json();
+      return data;
+    }
+  });
+  const filterCart = carts?.data?.filter(cart => cart?.email === userData?.user?.email && cart?.book_id === signleData?.data?._id)
 
-
+console.log(filterCart?.length)
   return (
     <div>
       <div className="flex items-center justify-center pt-20">
@@ -155,6 +188,9 @@ const BookDeatils = () => {
             </button>}
             {filterLendBook&&filterLendBook[0]?.returnDate &&<h1>Return Date: {filterLendBook&&filterLendBook[0]?.returnDate}</h1>}
             </div> 
+            {filterCart?.length === 1 ?  <button disabled className="p-2 mt-2 bg-green-400 rounded-lg w-60">This book added in your cart</button>:<div className="mt-2">
+              <button onClick={() => handleAddCart()} className="w-40 p-2 bg-blue-400 rounded-lg">Add To cart</button>
+            </div>}
             
           </div>
         </div>
