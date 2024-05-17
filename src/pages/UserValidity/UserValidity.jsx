@@ -14,8 +14,9 @@ const UserValidity = () => {
         }
     });
 
-    const filterUser = allUser?.data?.filter(user => user?.role === "buyer")
-
+    const filterUser = allUser?.data?.filter(user => user?.role === "buyer" && user?.verification === "")
+    const validUser = allUser?.data?.filter(user => user?.role === "buyer" && user?.verification === "verified")
+    console.log(validUser)
     const handleUpdateVerification = async (id) => {
 
         const validData = {
@@ -138,39 +139,89 @@ const UserValidity = () => {
     };
     return (
         <div>
-            <div className="flex p-2 font-bold">
-                <h1 className=" w-60">User Email</h1>
-                <h1 className="w-40 ">User Name</h1>
-                <h1 className=" w-28">Validity Status</h1>
-                <h1 className="w-40 ml-2 ">Make/Remove Varify</h1>
-                <h1 className="w-32 ml-2 ">Block Status</h1>
-                <h1 className="w-40 ">Block/Unblock User</h1>
-            </div>
-            {
-                filterUser?.map(user =>
-                    <div key={user?._id} className="flex items-center p-2 mt-3 bg-blue-300 rounded-md">
-                        <h1 className=" w-60">{user?.email}</h1>
-                        <h1 className="w-40 ">{user?.userName}</h1>
-                        {user?.verification === "" && <p className=" w-28">Not verified</p>}
-                        {user?.verification === "verified" && <><p className="flex items-center gap-2 text-lg text-green-600 w-28"> Verifiled<FaCheckCircle /></p></>}
-
-                        {user?.verification === "" && <div>
-                            <button onClick={() => handleUpdateVerification(user?._id)} value="varified" className="w-40 p-2 ml-2 text-sm font-bold text-white bg-green-500 rounded-xl">Veryfied user</button>
-                        </div>}
-                        {user?.verification === "verified" && <div>
-                            <button onClick={() => handleRemoveVerification(user?._id)} value="varified" className="w-40 p-2 ml-2 text-sm font-bold text-white bg-red-500 rounded-xl">Remove Verification</button>
-                        </div>}
-                        {user?.block === "" && <p className="w-32 ml-2 ">Open</p>}
-                        {user?.block === "block" && <><p className="flex items-center w-32 gap-2 ml-2 text-lg text-red-600 ">Blocked</p></>}
-                        {user?.block === "" && <div>
-                            <button onClick={() => handleBlock(user?._id)} className="w-40 p-2 text-sm font-bold text-white bg-red-500 rounded-xl">Block user</button>
-                        </div>}
-                        {user?.block === "block" && <div>
-                            <button onClick={()=> handleRemoveBlock(user?._id)} className="w-40 p-2 text-sm font-bold text-white bg-green-500 rounded-xl">Unblock user</button>
-                        </div>}
+            <div>
+                <div className="flex justify-center mb-3 text-3xl italic font-bold">
+                    Our Verified Members
+                </div>
+                <div>
+                    <div className="flex p-2 font-bold">
+                        <h1 className="flex justify-center w-60">User Email</h1>
+                        <h1 className="flex justify-center w-40 ">User Name</h1>
+                        <h1 className="flex justify-center w-28">Validity Status</h1>
+                        <h1 className="flex justify-center w-40 ml-2 ">Varify/Renew</h1>
+                        <h1 className="flex justify-center w-32 ml-2 ">Block Status</h1>
+                        <h1 className="flex justify-center w-40 ">Block/Unblock User</h1>
                     </div>
-                )
-            }
+                    {
+                        validUser?.map(user =>
+                            <div key={user?._id} className="flex items-center p-2 mt-3 bg-blue-300 rounded-md">
+                                <h1 className=" w-60">{user?.email}</h1>
+                                <h1 className="w-40 ">{user?.userName}</h1>
+                                {user?.verification === "" && <p className=" w-28">Not verified</p>}
+                                {user?.verification === "verified" && <><p className="flex items-center gap-2 text-lg font-bold text-green-600 w-28"> Verified<FaCheckCircle /></p></>}
+
+                                {user?.verification === "" && <div>
+                                    <button onClick={() => handleUpdateVerification(user?._id)} value="varified" className="w-40 p-2 ml-2 text-sm font-bold text-white bg-green-500 rounded-xl">Veryfied user</button>
+                                </div>}
+                                {user?.verification === "verified" && <div>
+                                    <button onClick={() => handleRemoveVerification(user?._id)} value="varified" className="w-40 p-2 ml-2 text-sm font-bold text-white bg-red-500 rounded-xl">Renew user</button>
+                                </div>}
+                                {user?.block === "" && <p className="w-32 ml-2 ">Open</p>}
+                                {user?.block === "block" && <><p className="flex items-center w-32 gap-2 ml-2 text-lg text-red-600 ">Blocked</p></>}
+                                {user?.block === "" && <div>
+                                    <button onClick={() => handleBlock(user?._id)} className="w-40 p-2 text-sm font-bold text-white bg-red-500 rounded-xl">Block user</button>
+                                </div>}
+                                {user?.block === "block" && <div>
+                                    <button onClick={() => handleRemoveBlock(user?._id)} className="w-40 p-2 text-sm font-bold text-white bg-green-500 rounded-xl">Unblock user</button>
+                                </div>}
+                            </div>
+                        )
+                    }
+                </div>
+
+            </div>
+            <div className="mt-10">
+                <div className="flex justify-center mb-3 text-3xl italic font-bold">
+                    Normal Members
+                </div>
+                <div>
+                    <div className="flex p-2 font-bold">
+                        <h1 className="flex justify-center w-60">User Email</h1>
+                        <h1 className="flex justify-center w-40 ">User Name</h1>
+                        <h1 className="flex justify-center w-28">Validity Status</h1>
+                        <h1 className="flex justify-center w-40 ml-2 ">Make/Remove Varify</h1>
+                        <h1 className="flex justify-center w-32 ml-2 ">Block Status</h1>
+                        <h1 className="flex justify-center w-40 ">Block/Unblock User</h1>
+                    </div>
+                    {
+                        filterUser?.map(user =>
+                            <div key={user?._id} className="flex items-center p-2 mt-3 bg-blue-300 rounded-md">
+                                <h1 className=" w-60">{user?.email}</h1>
+                                <h1 className="w-40 ">{user?.userName}</h1>
+                                {user?.verification === "" && <p className=" w-28">Not verified</p>}
+                                {user?.verification === "verified" && <><p className="flex items-center gap-2 text-lg text-green-600 w-28"> Verifiled<FaCheckCircle /></p></>}
+
+                                {user?.verification === "" && <div>
+                                    <button onClick={() => handleUpdateVerification(user?._id)} value="varified" className="w-40 p-2 ml-2 text-sm font-bold text-white bg-green-500 rounded-xl">Veryfied user</button>
+                                </div>}
+                                {user?.verification === "verified" && <div>
+                                    <button onClick={() => handleRemoveVerification(user?._id)} value="varified" className="w-40 p-2 ml-2 text-sm font-bold text-white bg-red-500 rounded-xl">Renew user</button>
+                                </div>}
+                                {user?.block === "" && <p className="w-32 ml-2 ">Open</p>}
+                                {user?.block === "block" && <><p className="flex items-center w-32 gap-2 ml-2 text-lg text-red-600 ">Blocked</p></>}
+                                {user?.block === "" && <div>
+                                    <button onClick={() => handleBlock(user?._id)} className="w-40 p-2 text-sm font-bold text-white bg-red-500 rounded-xl">Block user</button>
+                                </div>}
+                                {user?.block === "block" && <div>
+                                    <button onClick={() => handleRemoveBlock(user?._id)} className="w-40 p-2 text-sm font-bold text-white bg-green-500 rounded-xl">Unblock user</button>
+                                </div>}
+                            </div>
+                        )
+                    }
+                </div>
+
+            </div>
+
         </div>
     );
 };

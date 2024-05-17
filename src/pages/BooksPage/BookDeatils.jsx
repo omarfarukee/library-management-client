@@ -12,24 +12,24 @@ import './BooksPage.css'
 import { useQuery } from "react-query";
 import { MdOutlineRateReview } from "react-icons/md";
 import { FcInfo } from "react-icons/fc";
-
+import { Modal } from "flowbite-react";
+import UpdateBook from "./UpdateBook";
 // import { SlCalender } from "react-icons/sl";
 const BookDeatils = () => {
+  const [openModal, setOpenModal] = useState(false);
   const userData = useUserData()
-  const signleData = useLoaderData()
+  const singleData = useLoaderData()
   const { addToast } = useToasts();
   const [rating, setRating] = useState(0);
   const [error, setError] = useState('');
   const { data: review = [], refetch } = useQuery({
     queryKey: ['review'],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/api/reviews/${signleData?.data?._id}`);
+      const res = await fetch(`http://localhost:5000/api/reviews/${singleData?.data?._id}`);
       const data = await res.json();
       return data;
     }
   });
-
-  console.log(review?.data?.length)
   const handleRatingClick = (value) => {
     setRating(value === rating ? 0 : value);
   };
@@ -65,11 +65,11 @@ const BookDeatils = () => {
       const reviewData = {
         customer_name: userData?.user?.userName,
         email: userData?.user?.userName,
-        u_id: signleData?.data?._id,
+        u_id: singleData?.data?._id,
         review: reviewValue,
         rating: rating,
-        book_title: signleData?.data?.title,
-        book_catrgory: signleData?.data?.category
+        book_title: singleData?.data?.title,
+        book_catrgory: singleData?.data?.category
       }
       const response = await fetch('http://localhost:5000/api/add-review', {
         method: 'POST',
@@ -103,7 +103,7 @@ const BookDeatils = () => {
       return data;
     }
   });
-  const filterLendBook = lendBooks?.data?.filter(lend => lend?.email === userData?.user?.email && lend?.book_id === signleData?.data?._id)
+  const filterLendBook = lendBooks?.data?.filter(lend => lend?.email === userData?.user?.email && lend?.book_id === singleData?.data?._id)
 
 
   const handleLendBooksSubmit = async () => {
@@ -112,11 +112,11 @@ const BookDeatils = () => {
       lendDate,
       userName: userData?.user?.userName,
       email: userData?.user?.email,
-      book_title: signleData?.data?.title,
-      book_author: signleData?.data?.author,
-      book_genre: signleData?.data?.genre,
-      book_id: signleData?.data?._id,
-      book_category: signleData?.data?.category,
+      book_title: singleData?.data?.title,
+      book_author: singleData?.data?.author,
+      book_genre: singleData?.data?.genre,
+      book_id: singleData?.data?._id,
+      book_category: singleData?.data?.category,
       request: ""
     }
     const response = await fetch('http://localhost:5000/api/lend-books', {
@@ -138,11 +138,11 @@ const BookDeatils = () => {
     const lendData = {
       userName: userData?.user?.userName,
       email: userData?.user?.email,
-      book_title: signleData?.data?.title,
-      book_author: signleData?.data?.author,
-      book_genre: signleData?.data?.genre,
-      book_id: signleData?.data?._id,
-      book_category: signleData?.data?.category,
+      book_title: singleData?.data?.title,
+      book_author: singleData?.data?.author,
+      book_genre: singleData?.data?.genre,
+      book_id: singleData?.data?._id,
+      book_category: singleData?.data?.category,
     }
     const response = await fetch('http://localhost:5000/api/cart', {
       method: 'POST',
@@ -167,14 +167,11 @@ const BookDeatils = () => {
       return data;
     }
   });
-  const filterCart = carts?.data?.filter(cart => cart?.email === userData?.user?.email && cart?.book_id === signleData?.data?._id)
-  const filterLenbooksForStock = lendBooks?.data?.filter(lend => lend?.book_id === signleData?.data?._id)
-  const filterCartForStocks = carts?.data?.filter(cart => cart?.book_id === signleData?.data?._id)
-  // console.log(filterCartForStocks?.length)
-  // console.log(filterLenbooksForStock?.length)
+  const filterCart = carts?.data?.filter(cart => cart?.email === userData?.user?.email && cart?.book_id === singleData?.data?._id)
+  const filterLenbooksForStock = lendBooks?.data?.filter(lend => lend?.book_id === singleData?.data?._id)
+  const filterCartForStocks = carts?.data?.filter(cart => cart?.book_id === singleData?.data?._id)
   const bookLendthSumForStock = filterLenbooksForStock?.length + filterCartForStocks?.length
-  const leftBooks = signleData?.data?.stock - bookLendthSumForStock
-  // console.log(leftBooks)
+  const leftBooks = singleData?.data?.stock - bookLendthSumForStock
   const handleWarnig = () => {
     addToast('This books is stock out', { appearance: 'warning' })
   }
@@ -193,47 +190,46 @@ const BookDeatils = () => {
           <img className="object-cover w-full rounded-t-lg md:h-auto md:w-96 md:rounded-none md:rounded-s-lg" src={book} alt="" />
           <div className="flex flex-col justify-between p-4 leading-normal">
             <div className="flex items-center justify-between">
-              <h5 className="mb-2 text-2xl italic font-bold tracking-tight">Titile: {signleData?.data?.title}</h5>
+              <h5 className="mb-2 text-2xl italic font-bold tracking-tight">Titile: {singleData?.data?.title}</h5>
               <p className="text-4xl cursor-pointer" onClick={()=> handleRulls()}><FcInfo /></p>
             </div>
             
-            <p><span className="italic font-bold">Toal stocks: </span>{signleData?.data?.stock}</p>
-            <p><span className="italic font-bold">Catalouge: </span>{signleData?.data?.category}</p>
-            <p><span className="italic font-bold">Author: </span>{signleData?.data?.author}</p>
-            <p><span className="italic font-bold">Genre: </span>{signleData?.data?.genre}</p>
-            <p><span className="italic font-bold">Publication Year: </span> {signleData?.data?.publicationYear}</p>
-            <p><span className="italic font-bold">Status:</span> {signleData?.data?.stock > bookLendthSumForStock && `stock in (${leftBooks})`}{signleData?.data?.stock <= bookLendthSumForStock && `stock out (${leftBooks}) left`}</p>
-            <p className="mb-3 font-normal "><span className="italic font-bold">Description: </span> '{signleData?.data?.description}'</p>
+            <p><span className="italic font-bold">Toal stocks: </span>{singleData?.data?.stock}</p>
+            <p><span className="italic font-bold">Catalouge: </span>{singleData?.data?.category}</p>
+            <p><span className="italic font-bold">Author: </span>{singleData?.data?.author}</p>
+            <p><span className="italic font-bold">Genre: </span>{singleData?.data?.genre}</p>
+            <p><span className="italic font-bold">Publication Year: </span> {singleData?.data?.publicationYear}</p>
+            <p><span className="italic font-bold">Status:</span> {singleData?.data?.stock > bookLendthSumForStock && `stock in (${leftBooks})`}{singleData?.data?.stock <= bookLendthSumForStock && `stock out (${leftBooks}) left`}</p>
+            <p className="mb-3 font-normal "><span className="italic font-bold">Description: </span> '{singleData?.data?.description}'</p>
             <div className="flex items-center gap-2">
 
-              {userData?.user?.block === "block" ? <> {signleData?.data?.stock <= bookLendthSumForStock ? <>{filterLendBook && filterLendBook[0]?.book_id === signleData?.data?._id ?
+    { userData?.user?.role === "buyer" && <>  {userData?.user?.block === "block" ? <> {singleData?.data?.stock <= bookLendthSumForStock ? <>{filterLendBook && filterLendBook[0]?.book_id === singleData?.data?._id ?
                 <button disabled className="w-40 p-2 bg-blue-400 rounded-lg">{`${filterLendBook && filterLendBook[0]?.request === "" ? "pending request..." : "Lend accepted"}`}
                 </button> :
                 <button onClick={() => handleWarnig()} className="p-2 bg-blue-400 rounded-lg w-36">Lend this books
                 </button>}</>
-                : <> {filterLendBook && filterLendBook[0]?.book_id === signleData?.data?._id ?
+                : <> {filterLendBook && filterLendBook[0]?.book_id === singleData?.data?._id ?
                   <button disabled className="w-40 p-2 bg-blue-400 rounded-lg">{`${filterLendBook && filterLendBook[0]?.request === "" ? "pending request..." : "Lend accepted"}`}
                   </button> :
                   <button onClick={() => handleBlock()} className="p-2 bg-blue-400 rounded-lg w-36">Lend this books
                   </button>}</>
               }</> :
-                <> {signleData?.data?.stock <= bookLendthSumForStock ? <>{filterLendBook && filterLendBook[0]?.book_id === signleData?.data?._id ?
+                <> {singleData?.data?.stock <= bookLendthSumForStock ? <>{filterLendBook && filterLendBook[0]?.book_id === singleData?.data?._id ?
                   <button disabled className="w-40 p-2 bg-blue-400 rounded-lg">{`${filterLendBook && filterLendBook[0]?.request === "" ? "pending request..." : "Lend accepted"}`}
                   </button> :
                   <button onClick={() => handleWarnig()} className="p-2 bg-blue-400 rounded-lg w-36">Lend this books
                   </button>}</>
-                  : <> {filterLendBook && filterLendBook[0]?.book_id === signleData?.data?._id ?
+                  : <> {filterLendBook && filterLendBook[0]?.book_id === singleData?.data?._id ?
                     <button disabled className="w-40 p-2 bg-blue-400 rounded-lg">{`${filterLendBook && filterLendBook[0]?.request === "" ? "pending request..." : "Lend accepted"}`}
                     </button> :
                     <button onClick={() => handleLendBooksSubmit()} className="p-2 bg-blue-400 rounded-lg w-36">Lend this books
                     </button>}</>
-                }</>}
-
+                }</>}</> }
               {filterLendBook && filterLendBook[0]?.returnDate && <h1>Return Date: {filterLendBook && filterLendBook[0]?.returnDate}</h1>}
             </div>
 
-            {userData?.user?.block === "block" ?
-              <>  {signleData?.data?.stock <= bookLendthSumForStock ?
+   { userData?.user?.role === "buyer" &&   <>   {userData?.user?.block === "block" ?
+              <>  {singleData?.data?.stock <= bookLendthSumForStock ?
 
                 <>  {filterCart && filterCart?.length > 0 ? <button disabled className="p-2 mt-2 bg-green-400 rounded-lg w-60">This book added in your cart</button> : <div className="mt-2">
                   <button onClick={() => handleBlock()} className="w-40 p-2 bg-blue-400 rounded-lg">Add To cart</button>
@@ -245,7 +241,7 @@ const BookDeatils = () => {
                 </div>}</>
               }
               </>
-              : <>  {signleData?.data?.stock <= bookLendthSumForStock ?
+              : <>  {singleData?.data?.stock <= bookLendthSumForStock ?
 
                 <>  {filterCart && filterCart?.length > 0 ? <button disabled className="p-2 mt-2 bg-green-400 rounded-lg w-60">This book added in your cart</button> : <div className="mt-2">
                   <button onClick={() => handleWarnig()} className="w-40 p-2 bg-blue-400 rounded-lg">Add To cart</button>
@@ -256,9 +252,11 @@ const BookDeatils = () => {
                   <button onClick={() => handleAddCart()} className="w-40 p-2 bg-blue-400 rounded-lg">Add To cart</button>
                 </div>}</>
               }
-              </>}
+              </>}</>}
 
-
+             {userData?.user?.role === "admin" && <div>
+                <button onClick={() => setOpenModal(true)} className="w-40 p-2 mt-3 bg-blue-400 rounded-lg">update book info</button>
+              </div>}
           </div>
         </div>
       </div>
@@ -363,6 +361,13 @@ const BookDeatils = () => {
             </div>
         }
       </div>
+      <>
+      <Modal show={openModal} onClose={() => setOpenModal(false)}>
+        <Modal.Header><div>Update Books info</div></Modal.Header>
+        <Modal.Body>
+          <UpdateBook singleData={singleData}/>
+        </Modal.Body>
+      </Modal></>
     </div>
 
   );
