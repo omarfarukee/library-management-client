@@ -11,6 +11,8 @@ import { BsStar } from "react-icons/bs";
 import './BooksPage.css'
 import { useQuery } from "react-query";
 import { MdOutlineRateReview } from "react-icons/md";
+import { FcInfo } from "react-icons/fc";
+
 // import { SlCalender } from "react-icons/sl";
 const BookDeatils = () => {
   const userData = useUserData()
@@ -26,6 +28,8 @@ const BookDeatils = () => {
       return data;
     }
   });
+
+  console.log(review?.data?.length)
   const handleRatingClick = (value) => {
     setRating(value === rating ? 0 : value);
   };
@@ -164,48 +168,97 @@ const BookDeatils = () => {
     }
   });
   const filterCart = carts?.data?.filter(cart => cart?.email === userData?.user?.email && cart?.book_id === signleData?.data?._id)
-  const filterLenbooksForStock = lendBooks?.data?.filter(lend =>lend?.book_id === signleData?.data?._id)
+  const filterLenbooksForStock = lendBooks?.data?.filter(lend => lend?.book_id === signleData?.data?._id)
   const filterCartForStocks = carts?.data?.filter(cart => cart?.book_id === signleData?.data?._id)
   // console.log(filterCartForStocks?.length)
   // console.log(filterLenbooksForStock?.length)
   const bookLendthSumForStock = filterLenbooksForStock?.length + filterCartForStocks?.length
   const leftBooks = signleData?.data?.stock - bookLendthSumForStock
-  console.log(leftBooks)
-
+  // console.log(leftBooks)
+  const handleWarnig = () => {
+    addToast('This books is stock out', { appearance: 'warning' })
+  }
+  const handleBlock = () => {
+    addToast('Your profile is blocked by Admin', { appearance: 'warning' })
+  }
+  const handleRulls = () => {
+    addToast('Lend Rules:      Users wishing to borrow a book must submit a request to the admin through the library website. Once the admin approves the request, the user will be notified and given a return date, with a maximum lending period of seven days. If a user fails to return the book on time, they will be blocked from future borrowing privileges by the admin. This system ensures efficient book circulation and fair access for all users' 
+    
+    , { appearance: 'info' })
+  }
   return (
     <div>
       <div className="flex items-center justify-center pt-20 italic">
         <div className="flex flex-col items-center w-3/5 bg-white border border-gray-200 rounded-lg shadow md:flex-row ">
           <img className="object-cover w-full rounded-t-lg md:h-auto md:w-96 md:rounded-none md:rounded-s-lg" src={book} alt="" />
           <div className="flex flex-col justify-between p-4 leading-normal">
-            <h5 className="mb-2 text-2xl italic font-bold tracking-tight">Titile: {signleData?.data?.title}</h5>
+            <div className="flex items-center justify-between">
+              <h5 className="mb-2 text-2xl italic font-bold tracking-tight">Titile: {signleData?.data?.title}</h5>
+              <p className="text-4xl cursor-pointer" onClick={()=> handleRulls()}><FcInfo /></p>
+            </div>
+            
             <p><span className="italic font-bold">Toal stocks: </span>{signleData?.data?.stock}</p>
             <p><span className="italic font-bold">Catalouge: </span>{signleData?.data?.category}</p>
             <p><span className="italic font-bold">Author: </span>{signleData?.data?.author}</p>
             <p><span className="italic font-bold">Genre: </span>{signleData?.data?.genre}</p>
             <p><span className="italic font-bold">Publication Year: </span> {signleData?.data?.publicationYear}</p>
-            <p><span className="italic font-bold">Status:</span> {signleData?.data?.stock >bookLendthSumForStock && `stock in (${leftBooks})` }{signleData?.data?.stock <= bookLendthSumForStock && `stock out (${leftBooks}) left` }</p>
+            <p><span className="italic font-bold">Status:</span> {signleData?.data?.stock > bookLendthSumForStock && `stock in (${leftBooks})`}{signleData?.data?.stock <= bookLendthSumForStock && `stock out (${leftBooks}) left`}</p>
             <p className="mb-3 font-normal "><span className="italic font-bold">Description: </span> '{signleData?.data?.description}'</p>
-           <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
 
-          {signleData?.data?.stock <= bookLendthSumForStock? <>{filterLendBook && filterLendBook[0]?.book_id === signleData?.data?._id ?
-            <button disabled className="w-40 p-2 bg-blue-400 rounded-lg">{`${filterLendBook&&filterLendBook[0]?.request === "" ? "pending request..." : "Lend accepted"}`}
-            </button>:
-            <button disabled onClick={() => handleLendBooksSubmit()} className="p-2 bg-blue-400 rounded-lg w-36">Lend this books
-            </button>}</>
-            : <> {filterLendBook && filterLendBook[0]?.book_id === signleData?.data?._id ?
-            <button disabled className="w-40 p-2 bg-blue-400 rounded-lg">{`${filterLendBook&&filterLendBook[0]?.request === "" ? "pending request..." : "Lend accepted"}`}
-            </button>:
-            <button onClick={() => handleLendBooksSubmit()} className="p-2 bg-blue-400 rounded-lg w-36">Lend this books
-            </button>}</>
-             }
-            
-            {filterLendBook&&filterLendBook[0]?.returnDate &&<h1>Return Date: {filterLendBook&&filterLendBook[0]?.returnDate}</h1>}
-            </div> 
-            {filterCart&&filterCart?.length > 0 ?  <button disabled className="p-2 mt-2 bg-green-400 rounded-lg w-60">This book added in your cart</button>:<div className="mt-2">
-              <button onClick={() => handleAddCart()} className="w-40 p-2 bg-blue-400 rounded-lg">Add To cart</button>
-            </div>}
-            
+              {userData?.user?.block === "block" ? <> {signleData?.data?.stock <= bookLendthSumForStock ? <>{filterLendBook && filterLendBook[0]?.book_id === signleData?.data?._id ?
+                <button disabled className="w-40 p-2 bg-blue-400 rounded-lg">{`${filterLendBook && filterLendBook[0]?.request === "" ? "pending request..." : "Lend accepted"}`}
+                </button> :
+                <button onClick={() => handleWarnig()} className="p-2 bg-blue-400 rounded-lg w-36">Lend this books
+                </button>}</>
+                : <> {filterLendBook && filterLendBook[0]?.book_id === signleData?.data?._id ?
+                  <button disabled className="w-40 p-2 bg-blue-400 rounded-lg">{`${filterLendBook && filterLendBook[0]?.request === "" ? "pending request..." : "Lend accepted"}`}
+                  </button> :
+                  <button onClick={() => handleBlock()} className="p-2 bg-blue-400 rounded-lg w-36">Lend this books
+                  </button>}</>
+              }</> :
+                <> {signleData?.data?.stock <= bookLendthSumForStock ? <>{filterLendBook && filterLendBook[0]?.book_id === signleData?.data?._id ?
+                  <button disabled className="w-40 p-2 bg-blue-400 rounded-lg">{`${filterLendBook && filterLendBook[0]?.request === "" ? "pending request..." : "Lend accepted"}`}
+                  </button> :
+                  <button onClick={() => handleWarnig()} className="p-2 bg-blue-400 rounded-lg w-36">Lend this books
+                  </button>}</>
+                  : <> {filterLendBook && filterLendBook[0]?.book_id === signleData?.data?._id ?
+                    <button disabled className="w-40 p-2 bg-blue-400 rounded-lg">{`${filterLendBook && filterLendBook[0]?.request === "" ? "pending request..." : "Lend accepted"}`}
+                    </button> :
+                    <button onClick={() => handleLendBooksSubmit()} className="p-2 bg-blue-400 rounded-lg w-36">Lend this books
+                    </button>}</>
+                }</>}
+
+              {filterLendBook && filterLendBook[0]?.returnDate && <h1>Return Date: {filterLendBook && filterLendBook[0]?.returnDate}</h1>}
+            </div>
+
+            {userData?.user?.block === "block" ?
+              <>  {signleData?.data?.stock <= bookLendthSumForStock ?
+
+                <>  {filterCart && filterCart?.length > 0 ? <button disabled className="p-2 mt-2 bg-green-400 rounded-lg w-60">This book added in your cart</button> : <div className="mt-2">
+                  <button onClick={() => handleBlock()} className="w-40 p-2 bg-blue-400 rounded-lg">Add To cart</button>
+                </div>}</>
+                :
+
+                <> {filterCart && filterCart?.length > 0 ? <button disabled className="p-2 mt-2 bg-green-400 rounded-lg w-60">This book added in your cart</button> : <div className="mt-2">
+                  <button onClick={() => handleBlock()} className="w-40 p-2 bg-blue-400 rounded-lg">Add To cart</button>
+                </div>}</>
+              }
+              </>
+              : <>  {signleData?.data?.stock <= bookLendthSumForStock ?
+
+                <>  {filterCart && filterCart?.length > 0 ? <button disabled className="p-2 mt-2 bg-green-400 rounded-lg w-60">This book added in your cart</button> : <div className="mt-2">
+                  <button onClick={() => handleWarnig()} className="w-40 p-2 bg-blue-400 rounded-lg">Add To cart</button>
+                </div>}</>
+                :
+
+                <> {filterCart && filterCart?.length > 0 ? <button disabled className="p-2 mt-2 bg-green-400 rounded-lg w-60">This book added in your cart</button> : <div className="mt-2">
+                  <button onClick={() => handleAddCart()} className="w-40 p-2 bg-blue-400 rounded-lg">Add To cart</button>
+                </div>}</>
+              }
+              </>}
+
+
           </div>
         </div>
       </div>
@@ -247,8 +300,15 @@ const BookDeatils = () => {
         </div>
       </div>
       <div className="flex justify-center">
+        <div className="mt-5 text-3xl italic font-bold">
+          <h1>Reviews</h1>
+        </div>
+      </div>
+
+      <div className="flex justify-center">
+
         {
-          review?.data?.length === 0 ?
+          review?.data?.length === undefined ?
 
             <div className='flex justify-center mt-10 mb-10'>
               <span className=" no-found-review">No reviews Found ☹</span>
@@ -257,7 +317,7 @@ const BookDeatils = () => {
 
             <div className='mt-10 rounded-2xl'>
               {
-                review?.data?.map((review) =>
+                review?.data?.slice().reverse().map((review) =>
                   <div className='mb-10 border min-h-40 rounded-2xl w-[600px]'>
                     <div className='justify-between bg-teal-400 border-b-2 lg:flex rounded-tl-2xl rounded-tr-2xl '>
                       <div className='flex items-center p-2 gap-x-2'>
