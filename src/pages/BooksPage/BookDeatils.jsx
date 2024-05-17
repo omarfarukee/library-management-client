@@ -182,7 +182,7 @@ const BookDeatils = () => {
     addToast('Your profile is blocked by Admin', { appearance: 'warning' })
   }
   const handleRulls = () => {
-    addToast('Lend Rules:      Users wishing to borrow a book must submit a request to the admin through the library website. Once the admin approves the request, the user will be notified and given a return date, with a maximum lending period of seven days. If a user fails to return the book on time, they will be blocked from future borrowing privileges by the admin. This system ensures efficient book circulation and fair access for all users' 
+    addToast('Rent Rules:      Users wishing to borrow a book must submit a request to the admin through the library website. Once the admin approves the request, the user will be notified and given a return date, with a maximum lending period of seven days. If a user fails to return the book on time, they will be blocked from future borrowing privileges by the admin. This system ensures efficient book circulation and fair access for all users' 
     
     , { appearance: 'info' })
   }
