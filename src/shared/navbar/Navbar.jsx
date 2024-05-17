@@ -7,6 +7,8 @@ import { useUserData } from "../../Hooks/Hooks";
 import { useToasts } from "react-toast-notifications";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { FaUserTag } from "react-icons/fa";
+import { BsCart } from "react-icons/bs";
+import { useQuery } from "react-query";
 
 const Navbar = () => {
   const userData = useUserData()
@@ -35,6 +37,16 @@ const Navbar = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  const { data: carts = []} = useQuery({
+    queryKey: ['carts'],
+    queryFn: async () => {
+        const res = await fetch(`http://localhost:5000/api/cart/Fetch`);
+        const data = await res.json();
+        return data;
+    }
+});
+const filterCart = carts?.data?.filter(cart => cart?.email === userData?.user?.email)
+const myCartLength = filterCart?.length
 
   return (
     <div
@@ -104,10 +116,11 @@ const Navbar = () => {
         </div>
         <div className="" >
           <div className="flex items-center gap-1">
-            <div>
-              {userData?.user?.role === "admin" && <NavLink to='/myProfile'><MdAdminPanelSettings className="text-2xl" />
+            <div className="flex items-center gap-3">
+             <NavLink to="/myCart"><p className="text-4xl"><BsCart /></p> <p className="absolute w-2 ml-8 font-bold bottom-11">{myCartLength}</p></NavLink> 
+              {userData?.user?.role === "admin" && <NavLink to='/myProfile'><MdAdminPanelSettings className="text-4xl" />
               </NavLink>}
-              {userData?.user?.role === "buyer" && <NavLink to='/myProfile'><FaUserTag className="text-2xl" />
+              {userData?.user?.role === "buyer" && <NavLink to='/myProfile'><FaUserTag className="text-4xl" />
               </NavLink>}
             </div>
             {userData?.user ? <h1 onClick={() => handleLogout()} className="text-lg font-bold cursor-pointer">Log-out</h1>

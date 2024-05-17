@@ -16,8 +16,6 @@ const BookDeatils = () => {
   const userData = useUserData()
   const signleData = useLoaderData()
   const { addToast } = useToasts();
-
-
   const [rating, setRating] = useState(0);
   const [error, setError] = useState('');
   const { data: review = [], refetch } = useQuery({
@@ -28,11 +26,9 @@ const BookDeatils = () => {
       return data;
     }
   });
-  // console.log(signleData?.data?._id)
   const handleRatingClick = (value) => {
     setRating(value === rating ? 0 : value);
   };
-
   const renderRatingStars = () => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
@@ -104,7 +100,7 @@ const BookDeatils = () => {
     }
   });
   const filterLendBook = lendBooks?.data?.filter(lend => lend?.email === userData?.user?.email && lend?.book_id === signleData?.data?._id)
-  // console.log(filterLendBook&&filterLendBook)
+
 
   const handleLendBooksSubmit = async () => {
     const lendDate = new Date().toISOString().split('T')[0];
@@ -116,6 +112,7 @@ const BookDeatils = () => {
       book_author: signleData?.data?.author,
       book_genre: signleData?.data?.genre,
       book_id: signleData?.data?._id,
+      book_category: signleData?.data?.category,
       request: ""
     }
     const response = await fetch('http://localhost:5000/api/lend-books', {
@@ -141,6 +138,7 @@ const BookDeatils = () => {
       book_author: signleData?.data?.author,
       book_genre: signleData?.data?.genre,
       book_id: signleData?.data?._id,
+      book_category: signleData?.data?.category,
     }
     const response = await fetch('http://localhost:5000/api/cart', {
       method: 'POST',
@@ -166,29 +164,45 @@ const BookDeatils = () => {
     }
   });
   const filterCart = carts?.data?.filter(cart => cart?.email === userData?.user?.email && cart?.book_id === signleData?.data?._id)
+  const filterLenbooksForStock = lendBooks?.data?.filter(lend =>lend?.book_id === signleData?.data?._id)
+  const filterCartForStocks = carts?.data?.filter(cart => cart?.book_id === signleData?.data?._id)
+  // console.log(filterCartForStocks?.length)
+  // console.log(filterLenbooksForStock?.length)
+  const bookLendthSumForStock = filterLenbooksForStock?.length + filterCartForStocks?.length
+  const leftBooks = signleData?.data?.stock - bookLendthSumForStock
+  console.log(leftBooks)
 
-console.log(filterCart?.length)
   return (
     <div>
-      <div className="flex items-center justify-center pt-20">
+      <div className="flex items-center justify-center pt-20 italic">
         <div className="flex flex-col items-center w-3/5 bg-white border border-gray-200 rounded-lg shadow md:flex-row ">
           <img className="object-cover w-full rounded-t-lg md:h-auto md:w-96 md:rounded-none md:rounded-s-lg" src={book} alt="" />
           <div className="flex flex-col justify-between p-4 leading-normal">
-            <h5 className="mb-2 text-2xl font-bold tracking-tight">Titile: {signleData?.data?.title}</h5>
-            <p>Catalouge: {signleData?.data?.category}</p>
-            <p>Author: {signleData?.data?.author}</p>
-            <p>Genre: {signleData?.data?.genre}</p>
-            <p>Publication Year: {signleData?.data?.publicationYear}</p>
-            <p className="mb-3 font-normal ">Description: '{signleData?.data?.description}'</p>
+            <h5 className="mb-2 text-2xl italic font-bold tracking-tight">Titile: {signleData?.data?.title}</h5>
+            <p><span className="italic font-bold">Toal stocks: </span>{signleData?.data?.stock}</p>
+            <p><span className="italic font-bold">Catalouge: </span>{signleData?.data?.category}</p>
+            <p><span className="italic font-bold">Author: </span>{signleData?.data?.author}</p>
+            <p><span className="italic font-bold">Genre: </span>{signleData?.data?.genre}</p>
+            <p><span className="italic font-bold">Publication Year: </span> {signleData?.data?.publicationYear}</p>
+            <p><span className="italic font-bold">Status:</span> {signleData?.data?.stock >bookLendthSumForStock && `stock in (${leftBooks})` }{signleData?.data?.stock <= bookLendthSumForStock && `stock out (${leftBooks}) left` }</p>
+            <p className="mb-3 font-normal "><span className="italic font-bold">Description: </span> '{signleData?.data?.description}'</p>
            <div className="flex items-center gap-2">
-            {filterLendBook && filterLendBook[0]?.book_id === signleData?.data?._id ?
+
+          {signleData?.data?.stock <= bookLendthSumForStock? <>{filterLendBook && filterLendBook[0]?.book_id === signleData?.data?._id ?
+            <button disabled className="w-40 p-2 bg-blue-400 rounded-lg">{`${filterLendBook&&filterLendBook[0]?.request === "" ? "pending request..." : "Lend accepted"}`}
+            </button>:
+            <button disabled onClick={() => handleLendBooksSubmit()} className="p-2 bg-blue-400 rounded-lg w-36">Lend this books
+            </button>}</>
+            : <> {filterLendBook && filterLendBook[0]?.book_id === signleData?.data?._id ?
             <button disabled className="w-40 p-2 bg-blue-400 rounded-lg">{`${filterLendBook&&filterLendBook[0]?.request === "" ? "pending request..." : "Lend accepted"}`}
             </button>:
             <button onClick={() => handleLendBooksSubmit()} className="p-2 bg-blue-400 rounded-lg w-36">Lend this books
-            </button>}
+            </button>}</>
+             }
+            
             {filterLendBook&&filterLendBook[0]?.returnDate &&<h1>Return Date: {filterLendBook&&filterLendBook[0]?.returnDate}</h1>}
             </div> 
-            {filterCart?.length === 1 ?  <button disabled className="p-2 mt-2 bg-green-400 rounded-lg w-60">This book added in your cart</button>:<div className="mt-2">
+            {filterCart&&filterCart?.length > 0 ?  <button disabled className="p-2 mt-2 bg-green-400 rounded-lg w-60">This book added in your cart</button>:<div className="mt-2">
               <button onClick={() => handleAddCart()} className="w-40 p-2 bg-blue-400 rounded-lg">Add To cart</button>
             </div>}
             

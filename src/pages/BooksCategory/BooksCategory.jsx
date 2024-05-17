@@ -21,7 +21,7 @@ const AllBook = () => {
             {
                 allCategory?.data?.map(
                     category => 
-                        <div className="flex items-center justify-center h-40 mb-2 border shadow-2xl ml-14 w-60 rounded-xl">
+                        <div key={category?._id} className="flex items-center justify-center h-40 mb-2 border shadow-2xl ml-14 w-60 rounded-xl">
                            <div className="">
                             <FaBookBookmark className="text-5xl text-center" />
                            <NavLink to={`/bookPage/${encodeURIComponent(category?.category)}`}><h1 className="text-2xl italic font-bold">{category?.category}</h1></NavLink> 

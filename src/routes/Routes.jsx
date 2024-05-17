@@ -7,6 +7,7 @@ import AllBook from '../pages/BooksCategory/BooksCategory';
 import BooksPage from '../pages/BooksPage/BooksPage';
 import BookDeatils from '../pages/BooksPage/BookDeatils';
 import UserProfile from '../pages/UserProfile/UserProfile';
+import Cart from '../pages/Cart/Cart';
 
 const routes = createBrowserRouter([
     {
@@ -24,6 +25,10 @@ const routes = createBrowserRouter([
             {
                 path: '/myProfile',
                 element: <UserProfile />,
+            },
+            {
+                path: '/myCart',
+                element: <Cart />,
             },
             {
                 path: '/bookPage/:category',
