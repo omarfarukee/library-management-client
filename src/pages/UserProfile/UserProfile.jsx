@@ -10,6 +10,7 @@ import AdminPassChange from "../AdminPassChange/AdminPassChange";
 import UserValidity from "../UserValidity/UserValidity";
 import LendRequest from "../LendRequest/LendRequest";
 import BuyerLendBooks from "../BuyerLendBooks/BuyerLendBooks";
+import OverDueBook from "../OverDueBook/OverDueBook";
 const UserProfile = () => {
     const [openModal, setOpenModal] = useState(false);
     const userData = useUserData()
@@ -26,6 +27,7 @@ const UserProfile = () => {
     const [showUserCheck, setshowUserCheck] = useState(false);
     const [showLendReq, setshowLendReq] = useState(false);
     const [showMyLendReq, setshowMYLendReq] = useState(false);
+    const [showDue, setshowDeu] = useState(false);
 
     const toggleProfile = () => {
         setshowProfile(!showProfile);
@@ -33,6 +35,7 @@ const UserProfile = () => {
         setshowUserCheck(false)
         setshowLendReq(false)
         setshowMYLendReq(false)
+        setshowDeu(false);
     };
 
     const toggleUserCheck = () => {
@@ -41,6 +44,7 @@ const UserProfile = () => {
         setshowProfile(false);
         setshowLendReq(false)
         setshowMYLendReq(false)
+        setshowDeu(false);
     };
     const toggleLendRequestCheck = () => {
         setshowUserCheck(!showLendReq);
@@ -48,10 +52,20 @@ const UserProfile = () => {
         setshowUserCheck(false);
         setshowProfile(false);
         setshowMYLendReq(false)
+        setshowDeu(false);
     };
     const toggleMyLendRequestCheck = () => {
         setshowUserCheck(!showMyLendReq);
         setshowMYLendReq(true);
+        setshowLendReq(false)
+        setshowUserCheck(false);
+        setshowProfile(false);
+        setshowDeu(false);
+    };
+    const toggleDueBooks = () => {
+        setshowUserCheck(!showDue);
+        setshowDeu(true);
+        setshowMYLendReq(false);
         setshowLendReq(false)
         setshowUserCheck(false);
         setshowProfile(false);
@@ -76,7 +90,7 @@ const UserProfile = () => {
                             </div>
                             {userData?.user?.role === "admin"&&<div>
                                 <button onClick={toggleUserCheck} className="w-40 mt-3 block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                    Check User Validity & memberships
+                                    Manage memberships
                                 </button>
                             </div>}
                             {userData?.user?.role === "admin"&&<div className="mt-3">
@@ -87,6 +101,11 @@ const UserProfile = () => {
                             {userData?.user?.role === "buyer"&&<div className="mt-3">
                                 <button onClick={toggleMyLendRequestCheck}  className="w-40 block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                     my Lend request
+                                </button>
+                            </div>}
+                            {userData?.user?.role === "admin"&&<div className="mt-3">
+                                <button onClick={toggleDueBooks}  className="w-40 block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    Check Over Due Book
                                 </button>
                             </div>}
 
@@ -136,6 +155,11 @@ const UserProfile = () => {
                     </div>}
                     {showMyLendReq&&<div>
                         <BuyerLendBooks/>
+                        </div>
+                    }
+                    {showDue&&
+                        <div>
+                            <OverDueBook/>
                         </div>
                     }
 

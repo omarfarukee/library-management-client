@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 :root {
-  background: #fffafa;
+  background: #f8f3ed;
+  /* background: #f8e4d4; */
 }
 
