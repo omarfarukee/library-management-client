@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { FaHome } from "react-icons/fa";
-import logo from "../../images/logo/pngwing.com (8).png"
+import logo from "../../images/logo/440923764_1121007785671908_9154952775293539087_n-removebg-preview.png"
 import { useUserData } from "../../Hooks/Hooks";
 import { useToasts } from "react-toast-notifications";
 import { MdAdminPanelSettings } from "react-icons/md";
@@ -53,19 +53,19 @@ const myCartLength = filterCart?.length
       className={`fixed w-full z-50 bg-transparent transition-all duration-300 ${scrolled ? "bg-transparent backdrop-blur-lg shadow-md" : ""
         }`}
     >
-      <div className="flex justify-between p-2 border ">
+      <div className="flex justify-between h-20 p-2 pt-4 pl-8 pr-8 ">
         <div className="relative h-12 overflow-hidden text-2xl leading-6 text-black uppercase cursor-pointer group">
           <NavLink to="/">
             <img
               src={logo}
-              className="w-14 group-hover:-translate-y-[120%] inline-block p-1 transition duration-500 ease-out"
+              className="w-36 group-hover:-translate-y-[130%] inline-block p-1 transition duration-500 ease-out"
               alt=""
             />
           </NavLink>
           <NavLink to="/">
             <img
               src={logo}
-              className="w-14 absolute left-0 rotate-12 inline-block translate-y-[120%] p-1 transition duration-500 ease-out group-hover:-translate-y-0 group-hover:rotate-0"
+              className="w-36 absolute left-0 rotate-12 inline-block translate-y-[120%] p-1 transition duration-500 ease-out group-hover:-translate-y-0 group-hover:rotate-0"
               alt=""
             />
           </NavLink>
@@ -77,7 +77,7 @@ const myCartLength = filterCart?.length
               isActive
                 ? 'text-blue-500'
                 : 'text-black'
-            } to="/home">
+            } to="/">
               <span className="group-hover:-translate-y-[120%] inline-block p-1 transition duration-500 ease-out">
                 <p className="flex items-center gap-1">HOME<FaHome /></p>
               </span>
@@ -86,7 +86,7 @@ const myCartLength = filterCart?.length
               isActive
                 ? 'text-blue-500'
                 : 'text-black'
-            } to="/home">
+            } to="/">
               <span className="absolute left-0 rotate-12 inline-block translate-y-[120%] p-1 transition duration-500 ease-out group-hover:-translate-y-0 group-hover:rotate-0">
                 <p className="flex items-center gap-1">HOME<FaHome /></p>
               </span>

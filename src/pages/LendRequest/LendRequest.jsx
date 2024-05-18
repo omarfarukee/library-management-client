@@ -112,7 +112,7 @@ const LendRequest = () => {
     return (
         <div>
             {lendBooks?.data?.length === 0 ? <div className="flex justify-center text-3xl">
-                <h1>No Lend Request</h1>
+                <h1>No Due books</h1>
             </div> :
                 <div>
                     <div className="flex p-2 font-bold">

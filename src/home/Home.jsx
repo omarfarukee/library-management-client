@@ -3,7 +3,7 @@
 const Home = () => {
     return (
         <div className="pt-20">
-            this is home
+            this is home lorem
         </div>
     );
 };
