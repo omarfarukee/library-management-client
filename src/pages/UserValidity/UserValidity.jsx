@@ -138,7 +138,7 @@ const UserValidity = () => {
         }
     };
     return (
-        <div>
+        <div className="animate__animated animate__backInDown">
             <div>
                 <div className="flex justify-center mb-3 text-3xl italic font-bold">
                     Our Verified Members

@@ -50,8 +50,8 @@ const OverDueBook = () => {
 
     return (
         <div>
-            {lendBooks?.data?.length === 0 ? <div className="flex justify-center text-3xl">
-                <h1>No Lend Request</h1>
+            {dueBooks?.length === 0 ? <div className="flex justify-center text-3xl">
+                <h1>No Due Books</h1>
             </div> :
                 <div>
                     <div className="flex p-2 font-bold">

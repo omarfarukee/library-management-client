@@ -110,7 +110,7 @@ const LendRequest = () => {
     };
   
     return (
-        <div>
+        <div className="animate__animated animate__backInDown">
             {lendBooks?.data?.length === 0 ? <div className="flex justify-center text-3xl">
                 <h1>No Due books</h1>
             </div> :
