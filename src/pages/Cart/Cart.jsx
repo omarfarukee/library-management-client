@@ -42,20 +42,21 @@ const Cart = () => {
     };
     return (
         <div className="flex justify-center pt-20">
+            {!filterCart?.data && <p>loading...</p>}
             {filterCart?.length === 0 ?
                 <div>
                     <h1 className="text-3xl font-bold ">Your Cart is Empty</h1>
                 </div> :
 
                 <div className="">
-                    <div className="flex">
+                    {filterCart?.data &&<div className="flex">
                         <h1 className="flex justify-center w-40 text-lg italic font-bold border">Avatar</h1>
                         <h1 className="flex justify-center text-lg italic font-bold border w-72">Books name</h1>
                         <h1 className="flex justify-center text-lg italic font-bold border w-52">Catelogue</h1>
                         <h1 className="flex justify-center w-40 text-lg italic font-bold border">Author</h1>
                         <h1 className="flex justify-center text-lg italic font-bold border w-52">Genre</h1>
                         <h1 className="flex justify-center w-20 text-lg italic font-bold border">Remove</h1>
-                    </div>
+                    </div>}
                     <div>
 
                         {

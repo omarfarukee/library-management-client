@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Banner1 from "./Banner1";
 import Banner2 from "./Banner2";
 import Banner3 from "./Banner3";
+import Home2 from "../pages/Home2/Home2";
 
 const Home = () => {
     const [banner1, setBanner1] = useState(true);
@@ -60,6 +61,9 @@ const Home = () => {
                 <div>
                     <button onClick={toggleBanner3} className="p-3 shadow-xl rounded-3xl">3</button>
                 </div>
+            </div>
+            <div className="mb-20">
+                <Home2/>
             </div>
         </div>
     );

@@ -14,9 +14,12 @@ const AllBook = () => {
         }
     });
 
-    // console.log(allCategory)
+    console.log(allCategory?.length )
     return (
         <div className="flex justify-center pt-20 ">
+            <div>
+                {!allCategory?.data && <><p>loading...</p></> }
+            </div>
         <div className="grid grid-cols-3 ">
             {
                 allCategory?.data?.map(
