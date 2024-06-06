@@ -72,9 +72,9 @@ const BooksPage = () => {
 
 			<div className="flex justify-center p-5">
 				
-            <div className="grid grid-cols-1 gap-10 mt-10 sm:grid-cols-2 lg:grid-cols-4 animate__animated animate__bounceInUp">
+            <div className={filteredBooks.length === 0 ?"flex justify-center" :"grid grid-cols-1 gap-10 mt-10 sm:grid-cols-2 lg:grid-cols-4 animate__animated animate__bounceInUp"}>
                 {filteredBooks.length === 0 ? (
-					<div className="flex justify-center w-full border"><span><img src={sorry} alt="" /><p>Book not found</p></span></div>
+					<div><span><img src={sorry} alt="" /><p className="flex justify-center text-3xl">Book not found</p></span></div>
                     
                 ) : (
 					
@@ -85,21 +85,21 @@ const BooksPage = () => {
                                 <img
                                     src={mystery}
                                     alt=""
-                                    className="object-cover w-full h-full transition-opacity duration-300 ease-in-out opacity-75 "
+                                    className="object-cover w-full h-full transition-transform duration-300 ease-in-out transform opacity-75 group-hover:scale-105 "
                                 />
                             )}
                             {book?.category === "Science Fiction" && (
                                 <img
                                     src={scienceFinction}
                                     alt=""
-                                    className="object-cover w-full h-full transition-opacity duration-300 ease-in-out opacity-75 "
+                                    className="object-cover w-full h-full transition-transform duration-300 ease-in-out transform opacity-75 group-hover:scale-105"
                                 />
                             )}
                             {book?.category === "Fiction" && (
                                 <img
                                     src={finction}
                                     alt=""
-                                    className="object-cover w-full h-full transition-opacity duration-300 ease-in-out opacity-75 "
+                                    className="object-cover w-full h-full transition-transform duration-300 ease-in-out transform opacity-75 group-hover:scale-105"
                                 />
                             )}
                             {/* Overlay with title and author */}
@@ -108,9 +108,13 @@ const BooksPage = () => {
 								:"p-2 font-bold text-gray-300 bg-transparent rounded-md backdrop-blur-lg"}>
                                     {book.title}
                                 </small>
-                                <h1 className={book?.category === "Fiction" ?"p-2 font-bold text-black bg-transparent rounded-md backdrop-blur-lg"
-								:"p-2 font-bold text-gray-300 bg-transparent rounded-md backdrop-blur-lg"}>
+                                <h1 className={book?.category === "Fiction" ?"p-2 font-bold text-black mt-2 bg-transparent rounded-md backdrop-blur-lg"
+								:"p-2 font-bold text-gray-300 bg-transparent rounded-md backdrop-blur-lg mt-2"}>
                                     Author: {book.author}
+                                </h1>
+                                <h1 className={book?.category === "Fiction" ?"p-2 font-bold mt-2 text-black bg-transparent rounded-md backdrop-blur-lg"
+								:"p-2 font-bold text-gray-300 bg-transparent rounded-md backdrop-blur-lg mt-2"}>
+                                    Category: {book.category}
                                 </h1>
                             </div>
                         </NavLink>

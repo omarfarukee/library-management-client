@@ -299,5 +299,43 @@
   }
 /* 
   @keyframes marquee {to{text-shadow:-11em 0 blue, 0 0 blue}} */
+.bg-img{
+	border-bottom-left-radius: 20%;
+	border-bottom-right-radius: 20%;
+	background: #e8d4c4;
+}
+  .info{
+	border-bottom-left-radius: 20%;
+	border-bottom-right-radius: 20%;
+  }
 
-  
+  .lend-this-book{
+	border: 3px solid rgb(81, 172, 247);
+	font-weight: 700;
+	margin-left: 4%;
+  }
+  .lend-this-book:hover{
+	background: rgb(81, 172, 247);
+	transition: 0.2s;
+	color: #ffffff;
+  }
+  .pending{
+	border: 3px solid rgb(155, 230, 132);
+	font-weight: 700;
+	margin-left: 4%;
+  }
+  .add-cart{
+	border: 3px solid rgb(132, 166, 230);
+	margin-left: 4%;
+	font-weight: 700;
+  }
+  .add-cart:hover{
+	background: rgb(132, 166, 230);
+	transition: 0.2s;
+	color: #ffffff;
+  }
+  .added-cart{
+	background: #9fff72;
+	margin-left: 4%;
+	font-weight: 700;
+  }

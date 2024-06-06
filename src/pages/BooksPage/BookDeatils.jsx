@@ -2,7 +2,6 @@
 /* eslint-disable react/jsx-no-undef */
 /* eslint-disable react/no-unescaped-entities */
 import { useLoaderData } from "react-router-dom";
-import book from '../../images/books-img/book-staring-saying-read-me-eevdk8dxt36nkymw.gif'
 import { useUserData } from "../../Hooks/Hooks";
 import { useToasts } from "react-toast-notifications";
 import { useState } from "react";
@@ -14,6 +13,11 @@ import { MdOutlineRateReview } from "react-icons/md";
 import { FcInfo } from "react-icons/fc";
 import { Modal } from "flowbite-react";
 import UpdateBook from "./UpdateBook";
+import fiction from "../../images/category/fiction.jpg"
+import { IoAddCircleOutline } from "react-icons/io5";
+import { IoCalendarNumberSharp } from "react-icons/io5";
+
+
 // import { SlCalender } from "react-icons/sl";
 const BookDeatils = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -185,10 +189,13 @@ const BookDeatils = () => {
   }
   return (
     <div>
-      <div className="flex items-center justify-center pt-20 italic">
-        <div className="flex flex-col items-center w-3/5 bg-white border border-gray-200 rounded-lg shadow md:flex-row ">
-          <img className="object-cover w-full rounded-t-lg md:h-auto md:w-96 md:rounded-none md:rounded-s-lg" src={book} alt="" />
-          <div className="flex flex-col justify-between p-4 leading-normal">
+      <div className="flex items-center justify-center italic">
+        <div className="grid grid-cols-2 gap-5 pl-12 pr-12">
+          <div className="flex justify-center pt-40 pb-10 border bg-img">
+            <img className="h-96" src={fiction} alt="" />
+          </div>
+          
+          <div className="flex flex-col justify-between pt-40 pb-10 pl-4 pr-3 leading-normal shadow-xl info">
             <div className="flex items-center justify-between">
               <h5 className="mb-2 text-2xl italic font-bold tracking-tight">Titile: {singleData?.data?.title}</h5>
               <p className="text-4xl cursor-pointer" onClick={()=> handleRulls()}><FcInfo /></p>
@@ -204,52 +211,56 @@ const BookDeatils = () => {
             <div className="flex items-center gap-2">
 
     { userData?.user?.role === "buyer" && <>  {userData?.user?.block === "block" ? <> {singleData?.data?.stock <= bookLendthSumForStock ? <>{filterLendBook && filterLendBook[0]?.book_id === singleData?.data?._id ?
-                <button disabled className="w-40 p-2 bg-blue-400 rounded-lg">{`${filterLendBook && filterLendBook[0]?.request === "" ? "pending request..." : "Lend accepted"}`}
+                <button disabled className="w-40 p-2 rounded-lg pending">{`${filterLendBook && filterLendBook[0]?.request === "" ? "pending request..." : "Lend accepted"}`}
                 </button> :
-                <button onClick={() => handleWarnig()} className="p-2 bg-blue-400 rounded-lg w-36">Lend this books
+                <button onClick={() => handleWarnig()} className="flex items-center gap-3 p-2 rounded-lg w-52 lend-this-book">Lend this books <IoCalendarNumberSharp 
+ className="text-2xl" />
                 </button>}</>
                 : <> {filterLendBook && filterLendBook[0]?.book_id === singleData?.data?._id ?
-                  <button disabled className="w-40 p-2 bg-blue-400 rounded-lg">{`${filterLendBook && filterLendBook[0]?.request === "" ? "pending request..." : "Lend accepted"}`}
+                  <button disabled className="w-40 p-2 rounded-lg pending">{`${filterLendBook && filterLendBook[0]?.request === "" ? "pending request..." : "Lend accepted"}`}
                   </button> :
-                  <button onClick={() => handleBlock()} className="p-2 bg-blue-400 rounded-lg w-36">Lend this books
+                  <button onClick={() => handleBlock()} className="flex items-center gap-3 p-2 rounded-lg w-52 lend-this-book">Lend this books <IoCalendarNumberSharp 
+ className="text-2xl" />
                   </button>}</>
               }</> :
                 <> {singleData?.data?.stock <= bookLendthSumForStock ? <>{filterLendBook && filterLendBook[0]?.book_id === singleData?.data?._id ?
-                  <button disabled className="w-40 p-2 bg-blue-400 rounded-lg">{`${filterLendBook && filterLendBook[0]?.request === "" ? "pending request..." : "Lend accepted"}`}
+                  <button disabled className="w-40 p-2 rounded-lg pending">{`${filterLendBook && filterLendBook[0]?.request === "" ? "pending request..." : "Lend accepted"}`}
                   </button> :
-                  <button onClick={() => handleWarnig()} className="p-2 bg-blue-400 rounded-lg w-36">Lend this books
+                  <button onClick={() => handleWarnig()} className="flex items-center gap-3 p-2 rounded-lg w-52 lend-this-book">Lend this books <IoCalendarNumberSharp 
+ className="text-2xl" />
                   </button>}</>
                   : <> {filterLendBook && filterLendBook[0]?.book_id === singleData?.data?._id ?
-                    <button disabled className="w-40 p-2 bg-blue-400 rounded-lg">{`${filterLendBook && filterLendBook[0]?.request === "" ? "pending request..." : "Lend accepted"}`}
+                    <button disabled className="w-40 p-2 rounded-lg pending">{`${filterLendBook && filterLendBook[0]?.request === "" ? "pending request..." : "Lend accepted"}`}
                     </button> :
-                    <button onClick={() => handleLendBooksSubmit()} className="p-2 bg-blue-400 rounded-lg w-36">Lend this books
+                    <button onClick={() => handleLendBooksSubmit()} className="flex items-center gap-3 p-2 rounded-lg w-52 lend-this-book">Lend this books <IoCalendarNumberSharp 
+ className="text-2xl" />
                     </button>}</>
                 }</>}</> }
-              {filterLendBook && filterLendBook[0]?.returnDate && <h1>Return Date: {filterLendBook && filterLendBook[0]?.returnDate}</h1>}
+              {filterLendBook && filterLendBook[0]?.returnDate && <h1 className="font-bold">Return Date: {filterLendBook && filterLendBook[0]?.returnDate}</h1>}
             </div>
 
    { userData?.user?.role === "buyer" &&   <>   {userData?.user?.block === "block" ?
               <>  {singleData?.data?.stock <= bookLendthSumForStock ?
 
-                <>  {filterCart && filterCart?.length > 0 ? <button disabled className="p-2 mt-2 bg-green-400 rounded-lg w-60">This book added in your cart</button> : <div className="mt-2">
-                  <button onClick={() => handleBlock()} className="w-40 p-2 bg-blue-400 rounded-lg">Add To cart</button>
+                <>  {filterCart && filterCart?.length > 0 ? <button disabled className="p-2 mt-2 rounded-lg added-cart w-60">This book added in your cart</button> : <div className="mt-2">
+                  <button onClick={() => handleBlock()} className="flex items-center w-40 gap-3 p-2 rounded-lg add-cart ">Add To cart <IoAddCircleOutline className="text-2xl" /></button>
                 </div>}</>
                 :
 
-                <> {filterCart && filterCart?.length > 0 ? <button disabled className="p-2 mt-2 bg-green-400 rounded-lg w-60">This book added in your cart</button> : <div className="mt-2">
-                  <button onClick={() => handleBlock()} className="w-40 p-2 bg-blue-400 rounded-lg">Add To cart</button>
+                <> {filterCart && filterCart?.length > 0 ? <button disabled className="p-2 mt-2 rounded-lg added-cart w-60">This book added in your cart</button> : <div className="mt-2">
+                  <button onClick={() => handleBlock()} className="flex items-center w-40 gap-3 p-2 rounded-lg add-cart">Add To cart <IoAddCircleOutline className="text-2xl" /></button>
                 </div>}</>
               }
               </>
               : <>  {singleData?.data?.stock <= bookLendthSumForStock ?
 
-                <>  {filterCart && filterCart?.length > 0 ? <button disabled className="p-2 mt-2 bg-green-400 rounded-lg w-60">This book added in your cart</button> : <div className="mt-2">
-                  <button onClick={() => handleWarnig()} className="w-40 p-2 bg-blue-400 rounded-lg">Add To cart</button>
+                <>  {filterCart && filterCart?.length > 0 ? <button disabled className="p-2 mt-2 rounded-lg added-cart w-60">This book added in your cart</button> : <div className="mt-2">
+                  <button onClick={() => handleWarnig()} className="flex items-center w-40 gap-3 p-2 rounded-lg add-cart">Add To cart <IoAddCircleOutline className="text-2xl" /></button>
                 </div>}</>
                 :
 
-                <> {filterCart && filterCart?.length > 0 ? <button disabled className="p-2 mt-2 bg-green-400 rounded-lg w-60">This book added in your cart</button> : <div className="mt-2">
-                  <button onClick={() => handleAddCart()} className="w-40 p-2 bg-blue-400 rounded-lg">Add To cart</button>
+                <> {filterCart && filterCart?.length > 0 ? <button disabled className="p-2 mt-2 rounded-lg added-cart w-60">This book added in your cart</button> : <div className="mt-2">
+                  <button onClick={() => handleAddCart()} className="flex items-center w-40 gap-3 p-2 rounded-lg add-cart">Add To cart <IoAddCircleOutline className="text-2xl" /></button>
                 </div>}</>
               }
               </>}</>}
@@ -258,6 +269,8 @@ const BookDeatils = () => {
                 <button onClick={() => setOpenModal(true)} className="w-40 p-2 mt-3 bg-blue-400 rounded-lg">update book info</button>
               </div>}
           </div>
+
+          
         </div>
       </div>
 

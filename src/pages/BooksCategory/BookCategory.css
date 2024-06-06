@@ -1,0 +1,31 @@
+.chose-topic{
+    position: relative;
+}
+.chose-topic h1{
+    position: absolute;
+    color: #fff4ec;
+    transform: translate(-50%, -50%);
+    font-size: 6em;
+    font-weight: 700;
+}
+.chose-topic h1:nth-child(1)
+{
+    color: transparent;
+    -webkit-text-stroke: 5px #000000;
+}
+/* .chose-topic h1:nth-child(2)
+{
+    color: #f0d5c1;
+    animation: animate 4s ease-in-out infinite;
+} */
+/* @keyframes animate 
+{
+    0%,100% 
+    { 
+        clip-path: polygon(0 36%, 15% 35%, 31% 44%, 46% 53%, 65% 48%, 85% 44%, 100% 48%, 100% 100%, 0 100%);
+    }
+    50%{
+        clip-path: polygon(0 57%, 17% 50%, 36% 53%, 56% 57%, 73% 52%, 86% 41%, 100% 30%, 100% 100%, 0 100%);
+
+    }
+} */

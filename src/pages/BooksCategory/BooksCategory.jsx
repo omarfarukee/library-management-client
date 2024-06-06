@@ -3,7 +3,8 @@ import { NavLink } from "react-router-dom";
 import scienceFiction from "../../images/category/scienceFiction.jpg";
 import mystery from "../../images/category/mystry.jpg";
 import fiction from "../../images/category/fiction.jpg";
-
+import Marquee from "react-fast-marquee";
+import "./BookCategory.css"
 const AllBook = () => {
     const { data: allCategory = [] } = useQuery({
         queryKey: ['allCategory'],
@@ -17,11 +18,20 @@ const AllBook = () => {
     console.log(allCategory?.length);
 
     return (
-        <div className="flex justify-center pt-28 animate__animated animate__backInDown">
+        <div className="mb-40">
+             <div className="flex justify-center mb-20 pt-28">
+                        <div className='chose-topic animate__animated animate__backInUp'>
+                            <h1 className="uppercase">Choose_Category</h1>
+                            <h1 className="uppercase">Choose_Category</h1>
+                        </div>
+
+                    </div>
+        <div className="flex justify-center animate__animated animate__backInDown">
             <div>
                 {!allCategory?.data && <><p>loading...</p></>}
             </div>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <Marquee pauseOnHover>
+            <div className="flex gap-32">
                 {allCategory?.data?.map((category) => (
                     <NavLink
                         key={category?._id}
@@ -57,6 +67,8 @@ const AllBook = () => {
                     </NavLink>
                 ))}
             </div>
+            </Marquee>
+        </div>
         </div>
     );
 };
