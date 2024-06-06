@@ -2,8 +2,11 @@
 /* eslint-disable react/jsx-key */
 import { NavLink, useLoaderData } from "react-router-dom";
 import './BooksPage.css'
-import books from '../../images/books-img/book-staring-saying-read-me-eevdk8dxt36nkymw.gif'
 import { useState } from "react";
+import mystery from "../../images/category/mystry.jpg"
+import scienceFinction from "../../images/category/scienceFiction.jpg"
+import finction from "../../images/category/fiction.jpg"
+import sorry from "../../images/sorry/output-onlinegiftools (22).gif"
 const BooksPage = () => {
 	const data = useLoaderData();
     const [searchQuery, setSearchQuery] = useState('');
@@ -16,7 +19,7 @@ const BooksPage = () => {
     });
 	return (
 		<div className="pt-20">
-			<div id="search">
+			<div id="search" className="animate__animated animate__fadeInLeft">
 				<svg viewBox="0 0 420 60" xmlns="http://www.w3.org/2000/svg">
 					<rect class="bar" />
 
@@ -67,29 +70,54 @@ const BooksPage = () => {
                 />
 			</div>
 
-			<div className="flex justify-center">
-			<div className="grid grid-cols-3 gap-3 mt-10">
-                    {filteredBooks.length === 0 ? (
-                        <p>Sorry, book not found.</p>
-                    ) : (
-                        filteredBooks.map(book => (
-                            <div className="border shadow-xl w-80 rounded-2xl" key={book._id}>
-                                {/* Book details */}
-                                <img src={books} alt="" className="rounded-tl-2xl rounded-tr-2xl" />
-                                <div className="p-5">
-                                    <h1 className="p-1 font-bold bg-blue-100 rounded-md">Ttile: {book.title}</h1>
-                                    <h1 className="p-1 mt-2 font-bold bg-blue-100 rounded-md">Author: {book.author}</h1>
-                                    <span className="flex justify-center">
-                                        <NavLink to={`/book/${book._id}`}>
-                                            <button className="p-2 mt-4 text-white bg-blue-500 border rounded-xl">Details..</button>
-                                        </NavLink>
-                                    </span>
-                                </div>
+			<div className="flex justify-center p-5">
+				
+            <div className="grid grid-cols-1 gap-10 mt-10 sm:grid-cols-2 lg:grid-cols-4 animate__animated animate__bounceInUp">
+                {filteredBooks.length === 0 ? (
+					<div className="flex justify-center w-full border"><span><img src={sorry} alt="" /><p>Book not found</p></span></div>
+                    
+                ) : (
+					
+                    filteredBooks.map((book) => (
+                        <NavLink to={`/book/${book._id}`} key={book._id} className="relative block shadow-xl h-[400px] group">
+                            {/* Book image */}
+                            {book?.category === "Mystery" && (
+                                <img
+                                    src={mystery}
+                                    alt=""
+                                    className="object-cover w-full h-full transition-opacity duration-300 ease-in-out opacity-75 "
+                                />
+                            )}
+                            {book?.category === "Science Fiction" && (
+                                <img
+                                    src={scienceFinction}
+                                    alt=""
+                                    className="object-cover w-full h-full transition-opacity duration-300 ease-in-out opacity-75 "
+                                />
+                            )}
+                            {book?.category === "Fiction" && (
+                                <img
+                                    src={finction}
+                                    alt=""
+                                    className="object-cover w-full h-full transition-opacity duration-300 ease-in-out opacity-75 "
+                                />
+                            )}
+                            {/* Overlay with title and author */}
+                            <div className="absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-300 ease-in-out ">
+                                <small className={book?.category === "Fiction" ?"p-2 font-bold text-black bg-transparent rounded-md backdrop-blur-lg"
+								:"p-2 font-bold text-gray-300 bg-transparent rounded-md backdrop-blur-lg"}>
+                                    {book.title}
+                                </small>
+                                <h1 className={book?.category === "Fiction" ?"p-2 font-bold text-black bg-transparent rounded-md backdrop-blur-lg"
+								:"p-2 font-bold text-gray-300 bg-transparent rounded-md backdrop-blur-lg"}>
+                                    Author: {book.author}
+                                </h1>
                             </div>
-                        ))
-                    )}
-                </div>
+                        </NavLink>
+                    ))
+                )}
             </div>
+        </div>
 
 		</div>
 	);

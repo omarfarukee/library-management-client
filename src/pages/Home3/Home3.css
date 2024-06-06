@@ -1,0 +1,9 @@
+.section3-container { /* Ensure the container covers the entire viewport */
+    top: 0;
+    left: 0;
+    height: 100vh; /* 100% of the viewport height */
+    width: 100%; /* 100% of the viewport width */
+    background-image:linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75)), url(../../images/map/1655144625732.jpg);
+    background-size: cover;
+    background-position: center;
+}

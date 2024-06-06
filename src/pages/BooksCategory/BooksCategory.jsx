@@ -1,10 +1,10 @@
-/* eslint-disable react/jsx-key */
 import { useQuery } from "react-query";
-import { FaBookBookmark } from "react-icons/fa6";
 import { NavLink } from "react-router-dom";
+import scienceFiction from "../../images/category/scienceFiction.jpg";
+import mystery from "../../images/category/mystry.jpg";
+import fiction from "../../images/category/fiction.jpg";
 
 const AllBook = () => {
-
     const { data: allCategory = [] } = useQuery({
         queryKey: ['allCategory'],
         queryFn: async () => {
@@ -14,27 +14,50 @@ const AllBook = () => {
         }
     });
 
-    console.log(allCategory?.length )
-    return (
-        <div className="flex justify-center pt-20 ">
-            <div>
-                {!allCategory?.data && <><p>loading...</p></> }
-            </div>
-        <div className="grid grid-cols-3 ">
-            {
-                allCategory?.data?.map(
-                    category => 
-                        <div key={category?._id} className="flex items-center justify-center h-40 mb-2 border shadow-2xl ml-14 w-60 rounded-xl">
-                           <div className="">
-                            <FaBookBookmark className="text-5xl text-center" />
-                           <NavLink to={`/bookPage/${encodeURIComponent(category?.category)}`}><h1 className="text-2xl italic font-bold">{category?.category}</h1></NavLink> 
-                            </div> 
-                        </div>
+    console.log(allCategory?.length);
 
-                    )
-            }
+    return (
+        <div className="flex justify-center pt-28 animate__animated animate__backInDown">
+            <div>
+                {!allCategory?.data && <><p>loading...</p></>}
+            </div>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {allCategory?.data?.map((category) => (
+                    <NavLink
+                        key={category?._id}
+                        to={`/bookPage/${encodeURIComponent(category?.category)}`}
+                        className="relative flex items-center justify-center overflow-hidden rounded-xl group"
+                    >
+                        <div className="relative w-full h-[500px]">
+                            {category?.category === "Science Fiction" && (
+                                <img
+                                    src={scienceFiction}
+                                    alt=""
+                                    className="object-cover w-full h-full transition-opacity duration-300 ease-in-out group-hover:opacity-75"
+                                />
+                            )}
+                            {category?.category === "Mystery" && (
+                                <img
+                                    src={mystery}
+                                    alt=""
+                                    className="object-cover w-full h-full transition-opacity duration-300 ease-in-out group-hover:opacity-75"
+                                />
+                            )}
+                            {category?.category === "Fiction" && (
+                                <img
+                                    src={fiction}
+                                    alt=""
+                                    className="object-cover w-full h-full transition-opacity duration-300 ease-in-out group-hover:opacity-75"
+                                />
+                            )}
+                            <div className="absolute inset-0 flex items-center justify-center transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100">
+                                <h1 className="text-4xl italic font-bold text-black">{category?.category}</h1>
+                            </div>
+                        </div>
+                    </NavLink>
+                ))}
+            </div>
         </div>
-    </div>
     );
 };
 

@@ -67,7 +67,7 @@ const Home2 = () => {
     ];
 
     return (
-        <div className="h-[650px] p-2">
+        <div className="h-[650px] p-2 animate__animated animate__backInUp">
             <div className="w-full gap-3 columns-1 sm:columns-2 lg:columns-4">
                 {images.map((image, index) => (
                     <div
